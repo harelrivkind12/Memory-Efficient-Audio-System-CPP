@@ -14,8 +14,13 @@
 class DJLibraryService {
 public:
     DJLibraryService(const Playlist& playlist);
+<<<<<<< HEAD
     DJLibraryService(): playlist(), library(){}
 
+=======
+    DJLibraryService() = default;
+    DJLibraryService::~DJLibraryService();
+>>>>>>> 49b2a97 (Finish assignment logic)
     /**
      * @brief Build the track library from parsed config data
      * @param library_tracks Vector of track info from config
