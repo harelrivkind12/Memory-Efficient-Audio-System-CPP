@@ -14,13 +14,12 @@
 class DJLibraryService {
 public:
     DJLibraryService(const Playlist& playlist);
-<<<<<<< HEAD
+
     DJLibraryService(): playlist(), library(){}
 
-=======
-    DJLibraryService() = default;
-    DJLibraryService::~DJLibraryService();
->>>>>>> 49b2a97 (Finish assignment logic)
+    ~DJLibraryService();
+
+
     /**
      * @brief Build the track library from parsed config data
      * @param library_tracks Vector of track info from config
@@ -58,5 +57,6 @@ private:
     Playlist playlist;
     std::vector<AudioTrack*> library;  // Library of all tracks (owned)
 };
+
 
 #endif // DJLIBRARYSERVICE_H

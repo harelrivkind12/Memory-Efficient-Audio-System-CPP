@@ -2,6 +2,7 @@
 #include "AudioTrack.h"
 #include <iostream>
 #include <algorithm>
+#include "PointerWrapper.h"
 Playlist::Playlist(const std::string& name) 
     : head(nullptr), playlist_name(name), track_count(0) {
     std::cout << "Created playlist: " << name << std::endl;
@@ -9,35 +10,65 @@ Playlist::Playlist(const std::string& name)
 // TODO: Fix memory leaks!
 // Students must fix this in Phase 1
 Playlist::~Playlist() {
-    #ifdef DEBUG
-    std::cout << "Destroying playlist: " << playlist_name << std::endl;
-    #endif
     PlaylistNode* current = head;
-    while (current)
-    {
-        PlaylistNode* toDel = current;
-        current = current->next;
-        delete toDel;
+    while (current != nullptr) {
+        PlaylistNode* nextNode = current->next;
+        delete current;
+        current = nextNode;
     }
-    
+}
+Playlist::Playlist(const Playlist& other)
+    : head(nullptr), playlist_name(other.playlist_name), track_count(0) {
+    if (!other.head) return;
+    PointerWrapper<AudioTrack> head_clone = other.head->track->clone();
+    head = new PlaylistNode(head_clone.release());
+    track_count++;
+    PlaylistNode* curr = head;
+    PlaylistNode* curr_other = other.head->next;
+    while (curr_other) {
+        PointerWrapper<AudioTrack> track_clone = curr_other->track->clone();
+        curr->next = new PlaylistNode(track_clone.release());
+        curr = curr->next;
+        curr_other = curr_other->next;
+        track_count++;
+    }
+}
+
+Playlist& Playlist::operator=(Playlist&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+    PlaylistNode* current = head;
+    while (current != nullptr) {
+        PlaylistNode* nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+
+    head = other.head;
+    playlist_name = std::move(other.playlist_name);
+    track_count = other.track_count;
+
+    other.head = nullptr;
+    other.track_count = 0;
+
+    return *this;
 }
 
 void Playlist::add_track(AudioTrack* track) {
     if (!track) {
         std::cout << "[Error] Cannot add null track to playlist" << std::endl;
         return;
-    }
 
-    // Create new node - this allocates memory!
-    PlaylistNode* new_node = new PlaylistNode(track);
+        
 
-    // Add to front of list
+    }    PlaylistNode* new_node = new PlaylistNode(track);
     new_node->next = head;
     head = new_node;
     track_count++;
 
-    std::cout << "Added '" << track->get_title() << "' to playlist '" 
-              << playlist_name << "'" << std::endl;
+    // std::cout << "Added '" << track->get_title() << "' to playlist '" 
+    //           << playlist_name << "'" << std::endl;
 }
 
 void Playlist::remove_track(const std::string& title) {
@@ -57,6 +88,7 @@ void Playlist::remove_track(const std::string& title) {
         } else {
             head = current->next;
         }
+
         delete current;
 
         track_count--;
@@ -135,3 +167,15 @@ std::vector<AudioTrack*> Playlist::getTracks() const {
     }
     return tracks;
 }
+
+// void Playlist::clean(tring new_name){
+//     PlaylistNode* current = head;
+//     while (current != nullptr) {
+//         PlaylistNode* nextNode = current->next;
+//         delete current;
+//         current = nextNode;
+//     }
+//     track_count = 0;
+//     head=0;
+//     playlist_name = std::move(new_name);
+// }

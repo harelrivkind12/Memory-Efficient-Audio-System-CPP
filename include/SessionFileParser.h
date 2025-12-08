@@ -12,6 +12,7 @@ struct SessionConfig {
     std::string app_name;
     std::string version;
     
+    
     // Library tracks from config file
     struct TrackInfo {
         std::string type;        // MP3 or WAV

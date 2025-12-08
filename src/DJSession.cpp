@@ -9,26 +9,11 @@
 
 
 DJSession::DJSession(const std::string& name, bool play_all)
-<<<<<<< HEAD
-    : session_name(name),
-    library_service(),
-    controller_service(),
-    mixing_service(),
-    config_manager(),
-    session_config(),
-    track_titles(),
-    play_all(play_all),
-    stats()
-      {
-    std::cout << "DJ Session System initialized: " << session_name << std::endl;
-}
-=======
     : session_name(name), library_service(), controller_service(),
      mixing_service(), config_manager(), session_config(), track_titles(), play_all(play_all), stats()
      {
       std::cout << "DJ Session System initialized: " << session_name << std::endl;
      }
->>>>>>> 49b2a97 (Finish assignment logic)
 
 
 DJSession::~DJSession() {
