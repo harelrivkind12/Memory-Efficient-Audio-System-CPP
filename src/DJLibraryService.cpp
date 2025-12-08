@@ -5,15 +5,11 @@
 #include <iostream>
 #include <memory>
 #include <filesystem>
-
+#include <algorithm>
 
 DJLibraryService::DJLibraryService(const Playlist& playlist) 
-<<<<<<< HEAD
-    : playlist(playlist), library() {}
-=======
     : playlist(playlist) {}
 
->>>>>>> 49b2a97 (Finish assignment logic)
 /**
  * @brief Load a playlist from track indices referencing the library
  * @param library_tracks Vector of track info from config
@@ -120,5 +116,6 @@ std::vector<std::string> DJLibraryService::getTrackTitles() const {
     for(AudioTrack* track : tracks){
         titles.push_back(track->get_title());
     }
+    std::reverse(titles.begin(), titles.end());
     return titles;
 }
