@@ -11,50 +11,51 @@ MP3Track::MP3Track(const std::string& title, const std::vector<std::string>& art
     #endif
 }
 
+
 // ========== TODO: STUDENTS IMPLEMENT THESE VIRTUAL FUNCTIONS ==========
 
 void MP3Track::load() {
     std::cout << "[MP3Track::load] Loading MP3: \"" << title
               << "\" at " << bitrate << " kbps...\n";
-    if (has_id3_tags)
-    {
-        std::cout << "  → Processing ID3 metadata (artist info, album art, etc.)... \n";
+    // TODO: Implement MP3 loading with format-specific operations
+    // NOTE: Use exactly 2 spaces before the arrow (→) character
+    if(has_id3_tags){
+        std::cout <<"  → Processing ID3 metadata (artist info, album art, etc.)...\n";
     }
     else{
-        std::cout << "  → No ID3 tags found. \n";
+        std::cout<< "  → No ID3 tags found.\n";
     }
-    std::cout << "  → Decoding MP3 frames... \n";
-    std::cout << "  → Load complete. \n"; 
+    std::cout <<"  → Decoding MP3 frames...\n";
+    std::cout <<"  → Load complete.\n";
 }
-
+    
 void MP3Track::analyze_beatgrid() {
      std::cout << "[MP3Track::analyze_beatgrid] Analyzing beat grid for: \"" << title << "\"\n";
-     int estimated_beats = (duration_seconds / 60.0) * bpm;
-     double precision_factor = bitrate / 320.0;
-     std::cout<<"  → Estimated beats: "<<estimated_beats<<"  → Compression precision factor: "<<precision_factor<<"\n";
     // TODO: Implement MP3-specific beat detection analysis
     // NOTE: Use exactly 2 spaces before each arrow (→) character
-
+    int beats = (duration_seconds / 60.0) *bpm;
+    double precision_factor = bitrate / 320.0;
+    std::cout<<"  → Estimated beats: "<<beats<<"  → Compression precision factor: "<<precision_factor<<"\n";
 }
 
 double MP3Track::get_quality_score() const {
-    double score = ((double)bitrate / 320.0) * 100.0;
-    if(has_id3_tags) {
-    score += 5.0;
-    }
-    if(bitrate < 128) {
-    score -= 10.0;
-    }
-    if(score > 100.0) {
-    score = 100.0;
-    } else if(score < 0.0) {
-    score = 0.0;
-    }
     // TODO: Implement comprehensive quality scoring
     // NOTE: This method does NOT print anything
-
-    return score;
+    double base_score= (bitrate / 320.0) * 100.0;
+    if(has_id3_tags)
+        base_score+=5;
+    if(bitrate<128)
+        base_score-=10;
+    if (base_score > 100.0) {
+    base_score = 100.0;
+} else if (base_score < 0.0) {
+    base_score = 0.0;
 }
+return base_score;
+
+    
+}
+
 
 PointerWrapper<AudioTrack> MP3Track::clone() const {
     try {

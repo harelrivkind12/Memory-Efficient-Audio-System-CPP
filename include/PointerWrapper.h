@@ -182,9 +182,7 @@ PointerWrapper<T> make_pointer_wrapper(Args&&... args) {
  * Why might this be useful?
  */
 template<typename T>
-
 void swap(PointerWrapper<T>& lhs, PointerWrapper<T>& rhs) noexcept {
-    
     lhs.swap(rhs);
 }
 

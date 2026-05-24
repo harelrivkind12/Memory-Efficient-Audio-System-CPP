@@ -59,10 +59,8 @@ void Playlist::add_track(AudioTrack* track) {
     if (!track) {
         std::cout << "[Error] Cannot add null track to playlist" << std::endl;
         return;
-
-        
-
-    }    PlaylistNode* new_node = new PlaylistNode(track);
+    }
+    PlaylistNode* new_node = new PlaylistNode(track);
     new_node->next = head;
     head = new_node;
     track_count++;
@@ -88,9 +86,7 @@ void Playlist::remove_track(const std::string& title) {
         } else {
             head = current->next;
         }
-
         delete current;
-
         track_count--;
         std::cout << "Removed '" << title << "' from playlist" << std::endl;
 
@@ -168,7 +164,7 @@ std::vector<AudioTrack*> Playlist::getTracks() const {
     return tracks;
 }
 
-// void Playlist::clean(tring new_name){
+// void Playlist::reset(std::string new_name){
 //     PlaylistNode* current = head;
 //     while (current != nullptr) {
 //         PlaylistNode* nextNode = current->next;

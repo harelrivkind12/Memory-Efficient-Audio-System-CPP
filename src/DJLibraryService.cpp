@@ -117,5 +117,4 @@ std::vector<std::string> DJLibraryService::getTrackTitles() const {
     }
     std::reverse(titles.begin(), titles.end());
     return titles;
-
 }

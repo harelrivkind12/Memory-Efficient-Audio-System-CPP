@@ -58,5 +58,4 @@ private:
     std::vector<AudioTrack*> library;  // Library of all tracks (owned)
 };
 
-
 #endif // DJLIBRARYSERVICE_H

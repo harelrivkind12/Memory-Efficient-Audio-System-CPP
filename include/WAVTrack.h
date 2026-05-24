@@ -28,7 +28,6 @@ public:
              int duration, int bpm, int sample_rate, int bit_depth);
 
     // ========== TODO: IMPLEMENT VIRTUAL FUNCTIONS ==========
-
     /**
      * TODO: Implement load function for WAV files
      * HINT: WAV files are uncompressed, so loading might be faster

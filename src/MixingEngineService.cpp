@@ -7,16 +7,12 @@
  * TODO: Implement MixingEngineService constructor
  */
 MixingEngineService::MixingEngineService()
-
-: decks(), active_deck(1), auto_sync(false), bpm_tolerance(0)
+    : decks(), active_deck(1), auto_sync(false), bpm_tolerance(0)
     {
         decks[0]=nullptr;
         decks[1]=nullptr;
         std::cout<<"[MixingEngineService] Initialized with 2 empty decks.\n";
-
-
     }
-
 
 /**
  * TODO: Implement MixingEngineService destructor
@@ -43,8 +39,8 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
         first = true;
     }
     PointerWrapper<AudioTrack>cloned=track.clone();
-    AudioTrack* clone_ptr = cloned.get();
-    if(clone_ptr==nullptr){
+    AudioTrack* clonePtr = cloned.get();
+    if(clonePtr==nullptr){
         std::cout << "[ERROR] Track: \"" << track.get_title() << "\" failed to clone";
         return -1;
     }
@@ -54,11 +50,11 @@ int MixingEngineService::loadTrackToDeck(const AudioTrack& track) {
         delete decks[target_deck];
         decks[target_deck]=nullptr;
     }
-    clone_ptr->load();
-    clone_ptr->analyze_beatgrid();
+    clonePtr->load();
+    clonePtr->analyze_beatgrid();
     //decks[active_deck]!=nullptr && auto_sync &&  ===== Logic flaw that I removed because it doesn't match the print.txt
     if(!first && decks[active_deck]!=nullptr && auto_sync){
-        int bpm_diff= std::abs(clone_ptr->get_bpm()-decks[active_deck]->get_bpm());
+        int bpm_diff= std::abs(clonePtr->get_bpm()-decks[active_deck]->get_bpm());
         if(bpm_diff>bpm_tolerance){
             sync_bpm(cloned);
         }
@@ -90,7 +86,6 @@ void MixingEngineService::displayDeckStatus() const {
     std::cout << "Active Deck: " << active_deck << "\n";
     std::cout << "===================\n";
 }
-
 
 
 /**

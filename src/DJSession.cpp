@@ -11,9 +11,9 @@
 DJSession::DJSession(const std::string& name, bool play_all)
     : session_name(name), library_service(), controller_service(),
      mixing_service(), config_manager(), session_config(), track_titles(), play_all(play_all), stats()
-     {
-      std::cout << "DJ Session System initialized: " << session_name << std::endl;
-     }
+    {
+    std::cout << "DJ Session System initialized: " << session_name << std::endl;
+    }
 
 
 DJSession::~DJSession() {
@@ -65,22 +65,23 @@ bool DJSession::load_playlist(const std::string& playlist_name)  {
 
  */
 int DJSession::load_track_to_controller(const std::string& track_name) {
-    AudioTrack* Find= library_service.findTrack(track_name);
-    if (!Find){
+    AudioTrack* toFind= library_service.findTrack(track_name);
+    if (!toFind){
         std::cout <<"[ERROR] Track: " << track_name <<" not found in library" << std::endl;
         stats.errors++;
         return 0;
     }
     else{
         std::cout<< "[System] Loading track '"<< track_name <<"' to controller..." << std::endl;
-        int Load = controller_service.loadTrackToCache(*Find); 
-        if (Load==1)
+        int toLoad = controller_service.loadTrackToCache(*toFind); 
+        if (toLoad==1)
             stats.cache_hits++;
-        else if (Load==0)
+        else if (toLoad==0)
             stats.cache_misses++;
         else 
             stats.cache_misses++ , stats.cache_evictions++;
-        return Load;
+        //controller_service.displayCacheStatus();
+        return toLoad;
     }
 
 }
@@ -116,7 +117,10 @@ bool DJSession::load_track_to_mixer_deck(const std::string& track_title) {
             std::cout <<"[ERROR] Track: " <<track_title<< " failed to load to the deck" <<std::endl;         
             return false;
         }
+        //mixing_service.displayDeckStatus();
     }
+
+    
 }
 
 /**
